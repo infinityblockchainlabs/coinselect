@@ -1,5 +1,5 @@
 var utils = require('./utils')
-
+// send utxos value to one specific address
 module.exports = function sendMax (utxos, outputs, feeRate) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {}
   var sumInput = utils.sumOrNaN(utxos);
