@@ -1,16 +1,20 @@
+var setting = require('./setting')
+
 // baseline estimates, used to improve performance
 var TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 var TX_INPUT_BASE = 32 + 4 + 1 + 4
 var TX_INPUT_PUBKEYHASH = 107
+var TX_INPUT_PUBKEYHASH_SEGWIT = 63
 var TX_OUTPUT_BASE = 8 + 1
 var TX_OUTPUT_PUBKEYHASH = 25
+var TX_OUTPUT_PUBKEYHASH_SEGWIT = 23
 
 function inputBytes (input) {
-  return TX_INPUT_BASE + (input.script ? input.script.length : TX_INPUT_PUBKEYHASH)
+  return TX_INPUT_BASE + (input.script ? input.script.length : setting.isSegwit() ? TX_INPUT_PUBKEYHASH_SEGWIT: TX_INPUT_PUBKEYHASH)
 }
 
 function outputBytes (output) {
-  return TX_OUTPUT_BASE + (output.script ? output.script.length : TX_OUTPUT_PUBKEYHASH)
+  return TX_OUTPUT_BASE + (output.script ? output.script.length : setting.isSegwit() ? TX_OUTPUT_PUBKEYHASH_SEGWIT : TX_OUTPUT_PUBKEYHASH)
 }
 
 function dustThreshold (output, feeRate) {
